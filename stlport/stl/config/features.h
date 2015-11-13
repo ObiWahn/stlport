@@ -218,14 +218,6 @@
 #  include <stl/config/_native_headers.h>
 #endif
 
-/*  shared library tune-up */
-
-#if defined (__BUILDING_STLPORT)
-/*  if we are rebuilding right now, place everything here */
-#  undef  _STLP_DESIGNATED_DLL
-#  define _STLP_DESIGNATED_DLL 1
-#endif
-
 /* Use own namespace always if possible and not explicitly instructed otherwise */
 #if defined (_STLP_USE_NAMESPACES) && !defined (_STLP_BROKEN_USING_DIRECTIVE) && \
    !defined (_STLP_NO_OWN_NAMESPACE)
@@ -901,10 +893,8 @@ typedef int bool;
 #  define _STLP_SHRED_BYTE 0xA3
 #endif /* _STLP_SHRED_BYTE */
 
-/* shared library tune-up */
-#ifndef _STLP_IMPORT_DECLSPEC
-#  define _STLP_IMPORT_DECLSPEC
-#endif
+/* Include the declspec-related defines */
+#include <stl/config/declspec.h>
 
 /* a keyword used to instantiate export template */
 #ifndef _STLP_EXPORT_TEMPLATE_KEYWORD
@@ -918,19 +908,6 @@ typedef int bool;
 #  define _STLP_CONST const
 #else
 #  define _STLP_CONST
-#endif
-
-#ifdef _STLP_USE_NO_IOSTREAMS
-/*
- * If we do not use iostreams we do not use the export/import
- * techniques to avoid build of the STLport library.
- */
-#  undef _STLP_USE_DECLSPEC
-/* We also undef USE_DYNAMIC_LIB macro as this macro add some code
- * to use the dynamic (shared) STLport library for some platform/compiler
- * configuration leading to problem when not linking to the STLport lib.
- */
-#  undef _STLP_USE_DYNAMIC_LIB
 #endif
 
 #if  defined (_STLP_DLLEXPORT_NEEDS_PREDECLARATION) && defined (_STLP_USE_DECLSPEC)
@@ -951,35 +928,6 @@ typedef int bool;
 
 #ifndef _STLP_EXPORT_TEMPLATE
 #  define  _STLP_EXPORT_TEMPLATE _STLP_EXPORT template
-#endif
-
-#if defined (_STLP_USE_DECLSPEC) /* using export/import technique */
-
-#  ifndef _STLP_EXPORT_DECLSPEC
-#    define _STLP_EXPORT_DECLSPEC
-#  endif
-#  ifndef _STLP_IMPORT_DECLSPEC
-#    define _STLP_IMPORT_DECLSPEC
-#  endif
-#  ifndef _STLP_CLASS_EXPORT_DECLSPEC
-#    define _STLP_CLASS_EXPORT_DECLSPEC
-#  endif
-#  ifndef _STLP_CLASS_IMPORT_DECLSPEC
-#    define _STLP_CLASS_IMPORT_DECLSPEC
-#  endif
-#  if defined (_STLP_DESIGNATED_DLL) /* This is a lib which will contain STLport exports */
-#    define  _STLP_DECLSPEC        _STLP_EXPORT_DECLSPEC
-#    define  _STLP_CLASS_DECLSPEC  _STLP_CLASS_EXPORT_DECLSPEC
-#  else
-#    define  _STLP_DECLSPEC        _STLP_IMPORT_DECLSPEC   /* Other modules, importing STLport exports */
-#    define  _STLP_CLASS_DECLSPEC  _STLP_CLASS_IMPORT_DECLSPEC
-#  endif
-
-#else /* Not using DLL export/import specifications */
-
-#  define _STLP_DECLSPEC
-#  define _STLP_CLASS_DECLSPEC
-
 #endif
 
 #define _STLP_EXPORT_TEMPLATE_CLASS _STLP_EXPORT template class _STLP_CLASS_DECLSPEC
