@@ -304,6 +304,8 @@ if "%OSVERSION%"=="" (
     echo CEVERSION=420 >> build\Makefiles\nmake\config.mak
 ) else if "%OSVERSION%"=="WCE500" (
     echo CEVERSION=500 >> build\Makefiles\nmake\config.mak
+) else if "%OSVERSION%"=="WCE600" (
+    echo CEVERSION=600 >> build\Makefiles\nmake\config.mak
 ) else (
     echo Unknown value for OSVERSION.
     exit /b 1
@@ -328,6 +330,8 @@ if "%OSVERSION%"=="" (
     echo CEVERSION=420 >> build\Makefiles\nmake\config.mak
 ) else if "%OSVERSION%"=="WCE500" (
     echo CEVERSION=500 >> build\Makefiles\nmake\config.mak
+) else if "%OSVERSION%"=="WCE600" (
+    echo CEVERSION=600 >> build\Makefiles\nmake\config.mak
 ) else (
     echo Unknown value for OSVERSION.
     exit /b 1
